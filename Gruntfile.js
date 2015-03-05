@@ -8,7 +8,7 @@ module.exports = function(grunt) {
         separator: ';'
       },
       dist: {
-        src: ['public/**/*.js'],
+        src: ['public/client/*.js'],
         dest: 'public/dist/<%= pkg.name %>.js'
       }
     },
@@ -123,10 +123,10 @@ module.exports = function(grunt) {
 
   grunt.registerTask('build', [
     'jshint',
-    'mochaTest',
-    // 'concat',
-    // 'uglify',
-    // 'cssmin'
+    // 'mochaTest',
+    'concat',
+    'uglify',
+    'cssmin'
   ]);
 
   grunt.registerTask('upload', function(n) {

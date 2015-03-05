@@ -85,6 +85,8 @@ module.exports = function(grunt) {
 
     shell: {
       prodServer: {
+        command: [
+        ]
       }
     },
   });
@@ -122,9 +124,9 @@ module.exports = function(grunt) {
   grunt.registerTask('build', [
     'jshint',
     'mochaTest',
-    'concat',
-    'uglify',
-    'cssmin'
+    // 'concat',
+    // 'uglify',
+    // 'cssmin'
   ]);
 
   grunt.registerTask('upload', function(n) {
@@ -136,6 +138,10 @@ module.exports = function(grunt) {
   });
 
   grunt.registerTask('deploy', [
+    // 'shell:spinUp',
+    // 'shell:gitPush',
+    // function(){ grunt.task.run(['build']) },
+    // 'shell:spinDown'
     // spin up azure site
     // git push  (w/ pwd)
     // run grunt build

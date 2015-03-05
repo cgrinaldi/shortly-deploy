@@ -2,7 +2,15 @@ module.exports = function(grunt) {
 
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
+
     concat: {
+      options: {
+        separator: ';'
+      },
+      dist: {
+        src: ['public/**/*.js'],
+        dest: 'public/dist/<%= pkg.name %>.js'
+      }
     },
 
     mochaTest: {
@@ -21,11 +29,20 @@ module.exports = function(grunt) {
     },
 
     uglify: {
+      options: {
+        banner: '/*! <%= pkg.name %> <%= grunt.template.today("dd-mm-yyyy") %> */\n'
+      },
+      dist: {
+        files: {
+          'public/dist/<%= pkg.name %>.min.js': ['<%= concat.dist.dest %>']
+        }
+      }
     },
 
     jshint: {
       files: [
-        // Add filespec list here
+        'Gruntfile.js', 'server.js', 'server-config.js',
+        'app/**/*.js', 'lib/**/*.js', 'public/client/*.js'
       ],
       options: {
         force: 'true',
@@ -38,6 +55,15 @@ module.exports = function(grunt) {
     },
 
     cssmin: {
+      target: {
+        files: [{
+          expand: true,
+          cwd: 'public',
+          src: ['*.css', '!*.min.css'],
+          dest: 'public',
+          ext: '.min.css'
+        }]
+      }
     },
 
     watch: {
@@ -94,6 +120,10 @@ module.exports = function(grunt) {
   ]);
 
   grunt.registerTask('build', [
+    'jshint',
+    'concat',
+    'uglify',
+    'cssmin'
   ]);
 
   grunt.registerTask('upload', function(n) {
@@ -105,7 +135,10 @@ module.exports = function(grunt) {
   });
 
   grunt.registerTask('deploy', [
-    // add your deploy tasks here
+    // spin up azure site
+    // git push  (w/ pwd)
+    // run grunt build
+    // spin down azure site
   ]);
 
 
